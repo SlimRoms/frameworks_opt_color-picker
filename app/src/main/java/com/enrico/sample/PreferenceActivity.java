@@ -4,22 +4,19 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
+import android.support.v14.preference.PreferenceFragment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.Preference;
 import android.support.v7.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.enrico.colorpicker.colorDialog;
-
-import static com.enrico.sample.PreferenceActivity.SettingsFragment.firstPreference;
-import static com.enrico.sample.PreferenceActivity.SettingsFragment.secondPreference;
+import com.enrico.colorpicker.ColorPickerPreference;
 
 @SuppressLint("NewApi")
-public class PreferenceActivity extends AppCompatActivity implements colorDialog.ColorSelectedListener {
+public class PreferenceActivity extends AppCompatActivity {
 
     //ContextThemeWrapper
     ContextThemeWrapper themeWrapper;
@@ -59,7 +56,6 @@ public class PreferenceActivity extends AppCompatActivity implements colorDialog
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
     public void onColorSelection(DialogFragment dialogFragment, int color) {
 
         int tag;
@@ -70,8 +66,8 @@ public class PreferenceActivity extends AppCompatActivity implements colorDialog
 
             //do something on color selection
             case 3:
-                colorDialog.setColorPreferenceSummary(firstPreference, color, PreferenceActivity.this, getResources());
-                colorDialog.setPickerColor(PreferenceActivity.this, 3, color);
+                // colorDialog.setColorPreferenceSummary(firstPreference, color, PreferenceActivity.this, getResources());
+                //colorDialog.setPickerColor(PreferenceActivity.this, 3, color);
 
                 //do your shit here
                 Toast.makeText(getBaseContext(), getResources().getString(R.string.selection) + tag + getResources().getString(R.string.is) + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT)
@@ -79,8 +75,8 @@ public class PreferenceActivity extends AppCompatActivity implements colorDialog
                 break;
 
             case 4:
-                colorDialog.setColorPreferenceSummary(secondPreference, color, PreferenceActivity.this, getResources());
-                colorDialog.setPickerColor(PreferenceActivity.this, 4, color);
+                //colorDialog.setColorPreferenceSummary(secondPreference, color, PreferenceActivity.this, getResources());
+                //colorDialog.setPickerColor(PreferenceActivity.this, 4, color);
 
                 //do your shit here
                 Toast.makeText(getBaseContext(), getResources().getString(R.string.selection) + tag + getResources().getString(R.string.is) + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT)
@@ -93,8 +89,8 @@ public class PreferenceActivity extends AppCompatActivity implements colorDialog
     public static class SettingsFragment extends PreferenceFragment {
 
         //preferences
-        static Preference firstPreference;
-        static Preference secondPreference;
+        static ColorPickerPreference firstPreference;
+        static ColorPickerPreference secondPreference;
 
         private SharedPreferences.OnSharedPreferenceChangeListener mListenerOptions;
 
@@ -104,16 +100,16 @@ public class PreferenceActivity extends AppCompatActivity implements colorDialog
             addPreferencesFromResource(R.xml.info_pref);
 
             //get the preferences
-            firstPreference = findPreference("preferenceColor");
-            secondPreference = findPreference("preferenceColor2");
+            firstPreference = (ColorPickerPreference) findPreference("preferenceColor");
+            secondPreference = (ColorPickerPreference) findPreference("preferenceColor2");
 
             //get preferences colors
-            int color = colorDialog.getPickerColor(getActivity(), 3);
-            int color2 = colorDialog.getPickerColor(getActivity(), 4);
+            // int color = colorDialog.getPickerColor(getActivity(), 3);
+            // int color2 = colorDialog.getPickerColor(getActivity(), 4);
 
             //set preferences colors
-            colorDialog.setColorPreferenceSummary(firstPreference, color, getActivity(), getResources());
-            colorDialog.setColorPreferenceSummary(secondPreference, color2, getActivity(), getResources());
+            // colorDialog.setColorPreferenceSummary(firstPreference, color, getActivity(), getResources());
+            // colorDialog.setColorPreferenceSummary(secondPreference, color2, getActivity(), getResources());
 
             firstPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -122,7 +118,7 @@ public class PreferenceActivity extends AppCompatActivity implements colorDialog
                     AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
 
                     //associate dialog with selected preference
-                    colorDialog.showColorPicker(appCompatActivity, 3);
+                    //       colorDialog.showColorPicker(appCompatActivity, 3);
                     return false;
                 }
             });
@@ -134,7 +130,7 @@ public class PreferenceActivity extends AppCompatActivity implements colorDialog
                     AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
 
                     //associate dialog with selected preference
-                    colorDialog.showColorPicker(appCompatActivity, 4);
+                    //   colorDialog.showColorPicker(appCompatActivity, 4);
                     return false;
                 }
             });
@@ -151,6 +147,11 @@ public class PreferenceActivity extends AppCompatActivity implements colorDialog
                     }
                 }
             };
+        }
+
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+
         }
 
         //register preferences changes

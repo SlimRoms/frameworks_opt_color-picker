@@ -25,6 +25,7 @@
     <color name="grey">#FF9E9E9E</color>
     <color name="blueGrey">#FF607D8B</color>
     <color name="darkGrey">#FF363F45</color>
+    <color name="white">#FFFFFFFF</color>
 
     <!-- Seekbar colors -->
     <color name="seekRed">#FFFF0000</color>
@@ -52,5 +53,6 @@
         <item>@color/grey</item>
         <item>@color/blueGrey</item>
         <item>@color/darkGrey</item>
+        <item>@color/white</item>
     </integer-array>
 </resources>

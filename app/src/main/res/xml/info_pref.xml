@@ -15,11 +15,11 @@
         android:title="@string/pref_theme_title" />
 
     <!-- preferences -->
-    <Preference
+    <com.enrico.colorpicker.ColorPickerPreference
         android:key="preferenceColor"
         android:title="@string/customPref" />
 
-    <Preference
+    <com.enrico.colorpicker.ColorPickerPreference
         android:key="preferenceColor2"
         android:title="@string/customPref2" />
 </PreferenceScreen>

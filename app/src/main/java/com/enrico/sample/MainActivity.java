@@ -2,16 +2,19 @@ package com.enrico.sample;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.TextView;
 
-import com.enrico.colorpicker.colorDialog;
+import com.enrico.colorpicker.ColorPickerDialog;
+import com.enrico.colorpicker.ColorPickerDialogFragment;
 
-public class MainActivity extends AppCompatActivity implements colorDialog.ColorSelectedListener {
+public class MainActivity extends AppCompatActivity implements
+        ColorPickerDialogFragment.ColorPickedListener {
 
     int color, color2;
 
@@ -23,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements colorDialog.Color
     //ContextThemeWrapper
     ContextThemeWrapper themeWrapper;
 
+    SharedPreferences mPrefs;
+
+    @SuppressWarnings("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,20 +36,22 @@ public class MainActivity extends AppCompatActivity implements colorDialog.Color
         //apply activity's theme if dark theme is enabled
         themeWrapper = new ContextThemeWrapper(getBaseContext(), this.getTheme());
 
+        mPrefs = getPreferences(0);
+
+        color = mPrefs.getInt("color", Color.RED);
+        color2 = mPrefs.getInt("color2", Color.BLUE);
+
         Preferences.applyTheme(themeWrapper, getBaseContext());
 
         setContentView(R.layout.activity_main);
-
-        color = colorDialog.getPickerColor(MainActivity.this, 1);
-
-        color2 = colorDialog.getPickerColor(MainActivity.this, 2);
 
         oneView = findViewById(R.id.one);
 
         oneView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                colorDialog.showColorPicker(MainActivity.this, 1);
+                ColorPickerDialogFragment.showColorPicker(
+                        MainActivity.this, MainActivity.this, "one");
 
             }
         });
@@ -53,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements colorDialog.Color
         twoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                colorDialog.showColorPicker(MainActivity.this, 2);
+                ColorPickerDialogFragment.showColorPicker(
+                        MainActivity.this, MainActivity.this, "two");
             }
         });
 
@@ -75,33 +84,19 @@ public class MainActivity extends AppCompatActivity implements colorDialog.Color
 
     }
 
-    @Override
-    public void onColorSelection(DialogFragment dialogFragment, int color) {
-
-        int tag;
-
-        tag = Integer.valueOf(dialogFragment.getTag());
-
-        switch (tag) {
-            case 1:
-
-                setViewColor(color, oneView, textView1);
-                colorDialog.setPickerColor(MainActivity.this, 1, color);
-
-                break;
-
-            case 2:
-                setViewColor(color, twoView, textView2);
-                colorDialog.setPickerColor(MainActivity.this, 2, color);
-
-        }
-
-    }
-
     private void setViewColor(int color, View view, TextView textView) {
         view.setBackgroundColor(color);
         textView.setText(Integer.toHexString(color).toUpperCase());
-        textView.setTextColor(colorDialog.getComplementaryColor(color));
+        textView.setTextColor(ColorPickerDialog.getComplementaryColor(color));
+    }
+
+    @Override
+    public void onColorPicked(String key, int color) {
+        if (key.equals("one")) {
+            setViewColor(color, oneView, textView1);
+        } else if (key.equals("two")) {
+            setViewColor(color, twoView, textView2);
+        }
     }
 }
 
