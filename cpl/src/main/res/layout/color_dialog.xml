@@ -36,7 +36,7 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <EditText
             android:id="@+id/hex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,28 +61,28 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <EditText
             android:id="@+id/alpha_edit"
             style="@style/ARGBEditText"
             android:layout_below="@+id/hex"
             android:layout_toEndOf="@+id/rgb"
             android:layout_toRightOf="@+id/rgb" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <EditText
             android:id="@+id/red_edit"
             style="@style/ARGBEditText"
             android:layout_below="@+id/hex"
             android:layout_toEndOf="@+id/alpha_edit"
             android:layout_toRightOf="@+id/alpha_edit" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <EditText
             android:id="@+id/green_edit"
             style="@style/ARGBEditText"
             android:layout_below="@+id/hex"
             android:layout_toEndOf="@+id/red_edit"
             android:layout_toRightOf="@+id/red_edit" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <EditText
             android:id="@+id/blue_edit"
             style="@style/ARGBEditText"
             android:layout_below="@+id/hex"
@@ -118,7 +118,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <android.support.v7.widget.AppCompatSeekBar
+            <SeekBar
                 android:id="@+id/alpha_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <android.support.v7.widget.AppCompatSeekBar
+            <SeekBar
                 android:id="@+id/red_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -176,7 +176,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <android.support.v7.widget.AppCompatSeekBar
+            <SeekBar
                 android:id="@+id/green_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <android.support.v7.widget.AppCompatSeekBar
+            <SeekBar
                 android:id="@+id/blue_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

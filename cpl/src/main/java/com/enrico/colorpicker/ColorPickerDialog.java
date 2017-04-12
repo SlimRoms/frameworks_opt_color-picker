@@ -5,15 +5,15 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatSeekBar;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -26,19 +26,21 @@ public class ColorPickerDialog extends Dialog implements SeekBar.OnSeekBarChange
     private View mView;
     private View mValue;
 
-    private AppCompatSeekBar mAlphaSeekBar;
-    private AppCompatSeekBar mRedSeekBar;
-    private AppCompatSeekBar mGreenSeekBar;
-    private AppCompatSeekBar mBlueSeekBar;
+    private boolean mAlphaEnabled;
+
+    private SeekBar mAlphaSeekBar;
+    private SeekBar mRedSeekBar;
+    private SeekBar mGreenSeekBar;
+    private SeekBar mBlueSeekBar;
 
     private TextView mHexText;
     private TextView mHashTag;
     private TextView mRGB;
-    private AppCompatEditText mHex;
-    private AppCompatEditText mAlpha;
-    private AppCompatEditText mRed;
-    private AppCompatEditText mGreen;
-    private AppCompatEditText mBlue;
+    private EditText mHex;
+    private EditText mAlpha;
+    private EditText mRed;
+    private EditText mGreen;
+    private EditText mBlue;
 
     private ColorSeletectedListener mListener;
     private boolean mUpdating = false;
@@ -57,11 +59,11 @@ public class ColorPickerDialog extends Dialog implements SeekBar.OnSeekBarChange
         mHexText = (TextView) view.findViewById(R.id.hashtext);
         mHashTag = (TextView) view.findViewById(R.id.hashtag);
         mRGB = (TextView) view.findViewById(R.id.rgb);
-        mHex = (AppCompatEditText) view.findViewById(R.id.hex);
-        mAlpha = (AppCompatEditText) view.findViewById(R.id.alpha_edit);
-        mRed = (AppCompatEditText) view.findViewById(R.id.red_edit);
-        mGreen = (AppCompatEditText) view.findViewById(R.id.green_edit);
-        mBlue = (AppCompatEditText) view.findViewById(R.id.blue_edit);
+        mHex = (EditText) view.findViewById(R.id.hex);
+        mAlpha = (EditText) view.findViewById(R.id.alpha_edit);
+        mRed = (EditText) view.findViewById(R.id.red_edit);
+        mGreen = (EditText) view.findViewById(R.id.green_edit);
+        mBlue = (EditText) view.findViewById(R.id.blue_edit);
 
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -88,10 +90,10 @@ public class ColorPickerDialog extends Dialog implements SeekBar.OnSeekBarChange
 
         paletteGrid.setAdapter(new PaletteAdapter(getContext()));
 
-        mAlphaSeekBar = (AppCompatSeekBar) view.findViewById(R.id.alpha_seekbar);
-        mRedSeekBar = (AppCompatSeekBar) view.findViewById(R.id.red_seekbar);
-        mGreenSeekBar = (AppCompatSeekBar) view.findViewById(R.id.green_seekbar);
-        mBlueSeekBar = (AppCompatSeekBar) view.findViewById(R.id.blue_seekbar);
+        mAlphaSeekBar = (SeekBar) view.findViewById(R.id.alpha_seekbar);
+        mRedSeekBar = (SeekBar) view.findViewById(R.id.red_seekbar);
+        mGreenSeekBar = (SeekBar) view.findViewById(R.id.green_seekbar);
+        mBlueSeekBar = (SeekBar) view.findViewById(R.id.blue_seekbar);
 
         mAlphaSeekBar.setOnSeekBarChangeListener(this);
         mAlphaSeekBar.getProgressDrawable().setColorFilter(Color.DKGRAY, PorterDuff.Mode.SRC_IN);
@@ -152,6 +154,30 @@ public class ColorPickerDialog extends Dialog implements SeekBar.OnSeekBarChange
         });
 
         mView = view;
+
+        setAlphaEnabled(true);
+    }
+
+    public void setAlphaEnabled(boolean enabled) {
+        if (mAlphaEnabled != enabled) {
+            mAlphaEnabled = enabled;
+            mAlpha.setVisibility(enabled ? View.VISIBLE : View.GONE);
+            mAlphaSeekBar.setVisibility(enabled ? View.VISIBLE : View.GONE);
+            InputFilter[] filters = mHex.getFilters();
+            int max = enabled ? 8 : 6;
+            boolean handled = false;
+            for (int i = 0; i < filters.length; i++) {
+                if (filters[i] instanceof InputFilter.LengthFilter) {
+                    filters[i] = new InputFilter.LengthFilter(max);
+                    handled = true;
+                    break;
+                }
+            }
+            if (!handled) {
+                filters[filters.length + 1] = new InputFilter.LengthFilter(max);
+            }
+            mHex.setFilters(filters);
+        }
     }
 
     private static boolean isDarkColor(int color) {

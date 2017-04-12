@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +19,7 @@ public class ColorPickerPreference extends Preference implements
         ColorPickerDialog.ColorSeletectedListener {
 
     private int mColor = Color.RED;
+    private boolean mAlphaEnabled = false;
     private CircleDrawable mDrawable;
     private ColorPickerDialog mDialog;
 
@@ -31,6 +33,14 @@ public class ColorPickerPreference extends Preference implements
 
     public ColorPickerPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+
+        TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.ColorPickerPreference, 0, 0);
+
+        mColor = a.getColor(R.styleable.ColorPickerPreference_defaultColor, mColor);
+        mAlphaEnabled = a.getBoolean(R.styleable.ColorPickerPreference_alphaEnabled, mAlphaEnabled);
+
+        a.recycle();
     }
 
     @Override
@@ -50,6 +60,10 @@ public class ColorPickerPreference extends Preference implements
             mDrawable.setColor(color);
         }
         persistInt(mColor);
+
+        if (getOnPreferenceChangeListener() != null) {
+            getOnPreferenceChangeListener().onPreferenceChange(this, color);
+        }
     }
 
     @Override
@@ -57,6 +71,7 @@ public class ColorPickerPreference extends Preference implements
         mDialog = new ColorPickerDialog(getContext(), this);
         mDialog.show();
         mDialog.updateColor(mColor);
+        mDialog.setAlphaEnabled(mAlphaEnabled);
     }
 
     @Override
