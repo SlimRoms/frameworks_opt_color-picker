@@ -12,5 +12,10 @@
         <item name="android:maxLength">3</item>
         <item name="android:textSize">18sp</item>
     </style>
+    
+    <style name="ColorPickerDialog">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
 </resources>

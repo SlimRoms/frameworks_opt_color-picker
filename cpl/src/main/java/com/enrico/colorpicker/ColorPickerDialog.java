@@ -4,11 +4,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +48,7 @@ public class ColorPickerDialog extends Dialog implements SeekBar.OnSeekBarChange
     private boolean mUpdating = false;
 
     public ColorPickerDialog(@NonNull Context context, ColorSeletectedListener listener) {
-        super(context);
+        super(new ContextThemeWrapper(context, R.style.ColorPickerDialog));
 
         if (getActionBar() != null) getActionBar().hide();
 
