@@ -49,7 +49,6 @@ public class ColorPickerDialog extends Dialog implements SeekBar.OnSeekBarChange
 
     public ColorPickerDialog(@NonNull Context context, ColorSeletectedListener listener) {
         super(new ContextThemeWrapper(context, R.style.ColorPickerDialog));
-
         if (getActionBar() != null) getActionBar().hide();
 
         mListener = listener;

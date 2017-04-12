@@ -9,10 +9,7 @@ import android.os.Parcelable;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ColorPickerPreference extends Preference implements
@@ -24,23 +21,34 @@ public class ColorPickerPreference extends Preference implements
     private ColorPickerDialog mDialog;
 
     public ColorPickerPreference(Context context) {
-        this(context, null);
+        super(context);
+        init(context, null);
     }
 
+    @SuppressWarnings("RestrictedApi")
     public ColorPickerPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, -1);
+        super(context, attrs);
+        init(context, attrs);
     }
 
     public ColorPickerPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init(context, attrs);
+    }
 
-        TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.ColorPickerPreference, 0, 0);
+    private void init(Context context, AttributeSet attrs) {
+        if (attrs != null) {
+            TypedArray a = context.obtainStyledAttributes(attrs,
+                    R.styleable.ColorPickerPreference, 0, 0);
 
-        mColor = a.getColor(R.styleable.ColorPickerPreference_defaultColor, mColor);
-        mAlphaEnabled = a.getBoolean(R.styleable.ColorPickerPreference_alphaEnabled, mAlphaEnabled);
+            mColor = a.getColor(R.styleable.ColorPickerPreference_defaultColor, mColor);
+            mAlphaEnabled = a.getBoolean(
+                    R.styleable.ColorPickerPreference_alphaEnabled, mAlphaEnabled);
 
-        a.recycle();
+            a.recycle();
+        }
+
+        setWidgetLayoutResource(R.layout.color_widget);
     }
 
     @Override
@@ -75,26 +83,20 @@ public class ColorPickerPreference extends Preference implements
     }
 
     @Override
+    public void onAttached() {
+        super.onAttached();
+    }
+
+    @Override
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
         float density = getContext().getResources().getDisplayMetrics().density;
 
-        LinearLayout widgetFrame = (LinearLayout) holder.findViewById(android.R.id.widget_frame);
-        if (widgetFrame == null)
-            return;
-
-        widgetFrame.setVisibility(View.VISIBLE);
-        if (widgetFrame.getChildCount() > 0) {
-            widgetFrame.removeAllViews();
-        }
+        ImageView iv = (ImageView) holder.itemView.findViewById(R.id.color);
 
         mDrawable = new CircleDrawable(mColor);
-        ImageView iv = new ImageView(getContext());
-        iv.setLayoutParams(new LinearLayout.LayoutParams(
-                ((int) density * 31), ((int) density * 31)));
         iv.setImageDrawable(mDrawable);
-        widgetFrame.addView(iv);
     }
 
     @Override

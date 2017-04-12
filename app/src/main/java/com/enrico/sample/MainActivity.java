@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 ColorPickerDialogFragment.showColorPicker(
-                        MainActivity.this, MainActivity.this, "one");
+                        MainActivity.this, MainActivity.this, color, "one");
 
             }
         });
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 ColorPickerDialogFragment.showColorPicker(
-                        MainActivity.this, MainActivity.this, "two");
+                        MainActivity.this, MainActivity.this, color2, "two");
             }
         });
 

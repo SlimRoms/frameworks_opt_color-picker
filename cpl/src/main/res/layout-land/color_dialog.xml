@@ -3,14 +3,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/values_view"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="135dp">
+        android:layout_width="200dp"
+        android:layout_height="150dp">
 
         <TextView
             android:id="@+id/hashtext"
@@ -92,11 +92,13 @@
 
     <RelativeLayout
         android:id="@+id/seek_view"
-        android:layout_below="@id/values_view"
+        android:layout_toEndOf="@id/values_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
+        android:layout_height="150dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:gravity="center">
 
         <RelativeLayout

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- Preferences -->
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/preference_screen">
 
     <!-- Theme -->
@@ -22,6 +20,5 @@
 
     <com.enrico.colorpicker.ColorPickerPreference
         android:key="preferenceColor2"
-        app:defaultColor="@android:color/holo_blue_light"
         android:title="@string/customPref2" />
 </PreferenceScreen>

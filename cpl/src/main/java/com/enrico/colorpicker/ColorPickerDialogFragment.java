@@ -9,23 +9,28 @@ import android.support.v7.app.AppCompatActivity;
 public class ColorPickerDialogFragment extends DialogFragment {
 
     private ColorPickedListener mListener;
+    private int mColor;
 
     public static void showColorPicker(AppCompatActivity activity,
-                                       ColorPickedListener listener, String tag) {
+                                       ColorPickedListener listener, int color, String tag) {
         ColorPickerDialogFragment fragment = new ColorPickerDialogFragment();
         fragment.mListener = listener;
+        fragment.mColor = color;
         fragment.show(activity.getSupportFragmentManager(), tag);
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new ColorPickerDialog(getContext(), new ColorPickerDialog.ColorSeletectedListener() {
+        ColorPickerDialog dialog = new ColorPickerDialog(getContext(),
+                new ColorPickerDialog.ColorSeletectedListener() {
             @Override
             public void colorPicked(int color) {
                 if (mListener != null) mListener.onColorPicked(getTag(), color);
             }
         });
+        dialog.updateColor(mColor);
+        return dialog;
     }
 
     public interface ColorPickedListener {

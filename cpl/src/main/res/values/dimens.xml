@@ -5,5 +5,5 @@
     <dimen name="hex_margin">2dp</dimen>
 
     <dimen name="palette_width">30dp</dimen>
-    <dimen name="palette_colum">35dp</dimen>
+    <dimen name="palette_column">35dp</dimen>
 </resources>
