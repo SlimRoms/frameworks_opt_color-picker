@@ -16,7 +16,6 @@ public class ColorPickerPreference extends Preference implements
         ColorPickerDialog.ColorSeletectedListener {
 
     private int mColor = Color.RED;
-    private boolean mAlphaEnabled = false;
     private CircleDrawable mDrawable;
     private ColorPickerDialog mDialog;
 
@@ -42,8 +41,6 @@ public class ColorPickerPreference extends Preference implements
                     R.styleable.ColorPickerPreference, 0, 0);
 
             mColor = a.getColor(R.styleable.ColorPickerPreference_defaultColor, mColor);
-            mAlphaEnabled = a.getBoolean(
-                    R.styleable.ColorPickerPreference_alphaEnabled, mAlphaEnabled);
 
             a.recycle();
         }
@@ -79,7 +76,6 @@ public class ColorPickerPreference extends Preference implements
         mDialog = new ColorPickerDialog(getContext(), this);
         mDialog.show();
         mDialog.updateColor(mColor);
-        mDialog.setAlphaEnabled(mAlphaEnabled);
     }
 
     @Override

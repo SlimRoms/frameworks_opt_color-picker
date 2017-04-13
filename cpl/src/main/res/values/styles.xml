@@ -20,7 +20,7 @@
     </style>
 
     <style name="DialogButton" parent="android:TextAppearance.DeviceDefault.Widget.Button">
-        <item name="android:textColor">?colorAccent</item>
+        <item name="android:textColor">?android:colorForeground</item>
         <item name="android:paddingRight">15dp</item>
         <item name="android:paddingTop">15dp</item>
         <item name="android:paddingBottom">15dp</item>
