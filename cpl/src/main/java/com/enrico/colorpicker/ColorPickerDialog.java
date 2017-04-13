@@ -4,10 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -27,8 +25,6 @@ public class ColorPickerDialog extends Dialog implements SeekBar.OnSeekBarChange
     private int mColor = Color.RED;
     private View mView;
     private View mValue;
-
-    private boolean mAlphaEnabled;
 
     private SeekBar mAlphaSeekBar;
     private SeekBar mRedSeekBar;
@@ -155,30 +151,6 @@ public class ColorPickerDialog extends Dialog implements SeekBar.OnSeekBarChange
         });
 
         mView = view;
-
-        setAlphaEnabled(true);
-    }
-
-    public void setAlphaEnabled(boolean enabled) {
-        if (mAlphaEnabled != enabled) {
-            mAlphaEnabled = enabled;
-            mAlpha.setVisibility(enabled ? View.VISIBLE : View.GONE);
-            mAlphaSeekBar.setVisibility(enabled ? View.VISIBLE : View.GONE);
-            InputFilter[] filters = mHex.getFilters();
-            int max = enabled ? 8 : 6;
-            boolean handled = false;
-            for (int i = 0; i < filters.length; i++) {
-                if (filters[i] instanceof InputFilter.LengthFilter) {
-                    filters[i] = new InputFilter.LengthFilter(max);
-                    handled = true;
-                    break;
-                }
-            }
-            if (!handled) {
-                filters[filters.length + 1] = new InputFilter.LengthFilter(max);
-            }
-            mHex.setFilters(filters);
-        }
     }
 
     private static boolean isDarkColor(int color) {
